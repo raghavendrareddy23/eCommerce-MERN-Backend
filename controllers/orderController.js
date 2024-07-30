@@ -453,7 +453,8 @@ module.exports.get_order_by_id = async (req, res) => {
     })
       .sort({ date_added: -1 }) // Sort by date_added in descending order
       .limit(1) // Limit the result to 1 order
-      .populate("items.productId");
+      .populate("items.productId")
+      .populate("addressId");
 
     if (orders.length === 0) {
       return res.status(404).json({
