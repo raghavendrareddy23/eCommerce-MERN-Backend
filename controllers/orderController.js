@@ -443,6 +443,25 @@ module.exports.get_orders = async (req, res) => {
   }
 };
 
+module.exports.get_order_by_orderId = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+
+    const order = await Order.findById(orderId)
+      .populate('items.productId')
+      .populate('addressId');
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    res.json(order);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 module.exports.get_order_by_id = async (req, res) => {
   try {
     const { userId, productId } = req.params;
