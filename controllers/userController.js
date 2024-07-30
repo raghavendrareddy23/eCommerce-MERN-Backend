@@ -165,7 +165,7 @@ exports.requestPasswordReset = async (req, res) => {
 
     await user.save();
 
-    const resetLink = `https://ecommerce-mern-backend-mtnf.onrender.com/user/reset-password?token=${token}`;
+    const resetLink = `https://rr-ecommerce-web.netlify.app/user/reset-password?token=${token}`;
 
     await sendResetPasswordEmail(user.email, resetLink);
 
@@ -249,6 +249,68 @@ exports.resetPassword = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.changePassword = async (req, res) => {
+  const { oldPassword, newPassword, confirmNewPassword } = req.body;
+  const { id } = req.params;
+
+  if ((!oldPassword, !newPassword, !confirmNewPassword)) {
+    return res.status(422).json({
+      message: "oldPassword, newPassword and confirmNewPassword are required.",
+    });
+  }
+
+  try {
+    const validateUser = await User.findById({ _id: id });
+
+    const isMatch = await bcrypt.compare(oldPassword, validateUser.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Old Password is incorrect" });
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return res
+        .status(400)
+        .json({ message: "New password and Confirm Password do not match" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    validateUser.password = hashedPassword;
+
+    await validateUser.save();
+
+    return res.status(200).json({
+      success: true,
+      message: `Password Changed for ${validateUser.email} Successfully`,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: `Password Change Failed for ${validateUser.email}!`,
+      error,
+    });
+  }
+};
+
+exports.getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User fetched successfully",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 exports.getUsers = async (req, res) => {
   try {
