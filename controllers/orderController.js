@@ -5,7 +5,7 @@ const Coupon = require("../models/coupon");
 const Products = require("../models/products");
 const Address = require("../models/address");
 const Notification = require("../models/Notification");
-require('dotenv').config();
+require("dotenv").config();
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const createStripeSession = async (
@@ -15,7 +15,7 @@ const createStripeSession = async (
   cancelUrl,
   orderId,
   cartId,
-  customerName,
+  customerName
 ) => {
   try {
     if (!Array.isArray(itemNames)) {
@@ -71,19 +71,21 @@ module.exports.checkout = async (req, res) => {
     const { addressId } = req.body;
 
     if (!addressId) {
-      return res.status(400).json({message:"Address ID is required"});
+      return res.status(400).json({ message: "Address ID is required" });
     }
 
     const address = await Address.findById(addressId);
     if (!address) {
-      return res.status(400).json({message:"Invalid address ID"});
+      return res.status(400).json({ message: "Invalid address ID" });
     }
 
     const cart = await Cart.findOne({ userId });
     const user = await User.findById(userId);
 
     if (!cart || cart.items.length === 0) {
-      return res.status(400).json({message:"You do not have items in your cart"});
+      return res
+        .status(400)
+        .json({ message: "You do not have items in your cart" });
     }
 
     const order = new Order({
@@ -103,7 +105,7 @@ module.exports.checkout = async (req, res) => {
         console.log("Product not found:", item.productId);
         return res
           .status(400)
-          .json({message: `Product with ID ${item.productId} not found`});
+          .json({ message: `Product with ID ${item.productId} not found` });
       }
       item.price = product.sellPrice || product.price;
       totalBill += item.quantity * item.price;
@@ -127,7 +129,7 @@ module.exports.checkout = async (req, res) => {
       cancelUrl,
       order._id.toString(),
       cart._id.toString(),
-      customerName,
+      customerName
     );
 
     order.totalBill = totalBill;
@@ -142,7 +144,9 @@ module.exports.checkout = async (req, res) => {
     });
   } catch (error) {
     console.error("Error processing checkout:", error);
-    res.status(500).json({ message: "Internal Server Error", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: error.message });
   }
 };
 

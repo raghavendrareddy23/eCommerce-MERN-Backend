@@ -27,10 +27,21 @@ const OrderSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  paymentStatus: {
+    type: String,
+    enum: ["pending", "completed", "failed"],
+    default: "pending",
+  },
+  paymentIntentId: {
+    type: String,
+  },
+  recept: {
+    type: String,
+  },
   date_added: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = Order = mongoose.model("Order", OrderSchema);
+module.exports = mongoose.model("Order", OrderSchema);
