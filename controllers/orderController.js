@@ -119,8 +119,8 @@ module.exports.checkout = async (req, res) => {
 
     const customerName = address.fullName;
 
-    const successUrl = "http://localhost:3000/success";
-    const cancelUrl = "http://localhost:3000/cart";
+    const successUrl = "https://rr-ecommerce-web.netlify.app/success";
+    const cancelUrl = "https://rr-ecommerce-web.netlify.app/cart";
 
     const sessionId = await createStripeSession(
       itemNames,
