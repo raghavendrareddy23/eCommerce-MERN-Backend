@@ -1,7 +1,7 @@
 const cron = require("cron");
 const https = require("https");
 
-const backendUrl = "https://ecommerce-project-backend-lqhu.onrender.com/";
+const backendUrl = "https://ecommerce-mern-backend-mtnf.onrender.com/";
 
 const cronExpression = "*/14 * * * *";
 
