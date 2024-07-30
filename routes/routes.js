@@ -10,6 +10,7 @@ const orderRouter = require("./orderRoutes");
 const subCategoryRouter = require('./subCategoryRoutes');
 const couponRouter = require("./couponRoutes")
 const socketRouter = require('./socketRoutes')
+const contactRouter = require('./contactRoutes')
 
 router.use("/user", userRouter);
 router.use("/category", categoryRouter);
@@ -21,5 +22,6 @@ router.use("/address", addressRouter);
 router.use("/orders", orderRouter);
 router.use("/coupon", couponRouter);
 router.use("/notifications", socketRouter);
+router.use("/contact", contactRouter);
 
 module.exports = router;
