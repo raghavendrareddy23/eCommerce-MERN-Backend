@@ -16,7 +16,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://rr-ecommerce-web.netlify.app/",
+    origin: "https://rr-ecommerce-web.netlify.app",
     methods: ["GET", "POST"],
   },
 });
@@ -33,7 +33,7 @@ app.use(
 );
 
 app.use(cors({
-  origin:"https://rr-ecommerce-web.netlify.app/",
+  origin:"https://rr-ecommerce-web.netlify.app",
   methods:"GET,POST,PUT,DELETE",
   credentials:true
 }));

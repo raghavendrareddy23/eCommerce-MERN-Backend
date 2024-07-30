@@ -165,7 +165,7 @@ exports.requestPasswordReset = async (req, res) => {
 
     await user.save();
 
-    const resetLink = `http://localhost:5000/user/reset-password?token=${token}`;
+    const resetLink = `https://ecommerce-mern-backend-mtnf.onrender.com/user/reset-password?token=${token}`;
 
     await sendResetPasswordEmail(user.email, resetLink);
 
