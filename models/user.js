@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { none } = require("../utils/multer");
 
 const userSchema = new mongoose.Schema(
   {
@@ -7,7 +6,7 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: false, default: '' },
     role: { type: String, enum: ["user", "admin"], default: "user" },
-    token:{type:String, default: none},
+    token:{type:String, default: ''},
     resetPasswordToken: String,
     resetPasswordExpires: Date
   },
